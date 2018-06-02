@@ -1,6 +1,6 @@
 # redux_source_analysis
 
-### redux源码分析
+## redux源码分析
 第一次看源码，并没有想象中的难哈，主要是redux的源码比较少，理解起来也比较简单。看过之后，感觉更深入的理解了redux思想和函数式编程的理念，建议大家可以去看一下嘻嘻，看完之后肯定会有收获的。<br>
 
 我是对照着网上别人看过的源码笔记看的，写这篇文章的原因呢，是想总结一下，因为我记性比较差啦，算是做一个笔记，方便以后复习。<br>
@@ -15,7 +15,7 @@ redux的源码中，有6个js文件，分别是：
 
 我们一个一个来分析吧~
 
-#### index
+### index
 这里呢没有太多需要讲的，就是暴露了5个核心的api，分别是：
 * createStore：接收state和reducer，生成一颗状态树store
 * combineReducers：把子reducer合并成一个大reducer
@@ -23,7 +23,7 @@ redux的源码中，有6个js文件，分别是：
 * applyMiddleware：这是一个中间件
 * compose：一个组合函数
 
-#### createStore
+### createStore
 首先，定义初始化的action
 ```javascript
 export const ActionTypes = {
@@ -250,7 +250,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
 }
 ```
 
-#### combineReducers
+### combineReducers
 combineReducers的作用是将之前切分的多个子reducer合并成一个大的reducer，也就是说将很多的小状态树合并到一颗树上，整合成一个完整的store。<br>
 
 这个函数接受一个参数，返回一个函数<br>
@@ -346,7 +346,7 @@ export default function combineReducers(reducers) {
 }
 ```
 
-#### bindActionCreators
+### bindActionCreators
 bindActionCreators的作用是：将action与dispatch函数绑定，生成可以直接触发action的函数。
 
 ```javascript
@@ -392,7 +392,7 @@ export default function bindActionCreators(actionCreators, dispatch) {
 }
 ```
 
-#### compose
+### compose
 compose叫做函数组合，是一个柯里化函数，将多个函数合并成一个函数，从右到左执行。这同时也是函数式编程的特性。这个函数会在applyMiddleware中用到<br>
 
 
@@ -430,7 +430,7 @@ export default function compose(...funcs) {
 
 我们回到源码上面`return funcs.reduce((a, b) => (...args) => a(b(...args)))`，这其实就是遍历传入的参数数组（函数），将这些函数合并成一个函数，从右到左的执行。这就是中间件的创造过程，把store用一个函数包装之后，又用另一个函数包装，就形成了这种包菜式的函数。
 
-#### applyMiddleware
+### applyMiddleware
 applyMiddleware是用来扩展redux功能的，主要就是扩展store.dispatch的功能，像logger、redux-thunk就是一些中间件。<br>
 
 它的实现过程是：在dispatch的时候，会按照在applyMiddleware时传入的中间件顺序，依次执行。最后返回一个经过许多中间件包装之后的store.dispatch方法。<br>
