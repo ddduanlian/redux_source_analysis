@@ -14,7 +14,7 @@ function bindActionCreator(actionCreator, dispatch) {
  * 
  */
 export default function bindActionCreators(actionCreators, dispatch) {
-  //actionCreators为函数，就直接调用bindActionCreator包装
+  //actionCreators为函数，就直接调用bindActionCreator进行包装
   if (typeof actionCreators === 'function') {
     return bindActionCreator(actionCreators, dispatch)
   }

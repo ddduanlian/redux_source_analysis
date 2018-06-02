@@ -163,7 +163,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
   }
 
   /**
-   * 用于提供观察者模式的操作
+   * 用于提供观察者模式的操作，貌似是一个预留的方法，暂时没看到有啥用
    * @returns {observable} A minimal observable of state changes.
    */
   function observable() {

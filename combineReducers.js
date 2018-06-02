@@ -134,7 +134,7 @@ export default function combineReducers(reducers) {
       throw shapeAssertionError
     }
 
-    //如果不是production环境，做一些警告
+    //如果不是production(线上)环境，做一些警告
     if (process.env.NODE_ENV !== 'production') {
       const warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action, unexpectedKeyCache)
       if (warningMessage) {
