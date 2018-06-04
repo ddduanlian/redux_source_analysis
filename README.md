@@ -1,5 +1,5 @@
 # redux_source_analysis
-
+这是一篇源码分析
 ## redux源码分析
 第一次看源码，并没有想象中的难哈，主要是redux的源码比较少，理解起来也比较简单。看过之后，感觉更深入的理解了redux思想和函数式编程的理念，建议大家可以去看一下嘻嘻，看完之后肯定会有收获的。<br>
 
@@ -50,7 +50,7 @@ export const ActionTypes = {
 
 `4、@returns {Store}`<br>
 
-这是返回的值，返回的是一颗状态树，也就是store啦。<br>
+这是返回的值，返回的是一棵状态树，也就是store啦。<br>
 
 这是做的源码分析，都写在注释里了。createStore返回的最常用的三个api是dispatch，subscribe，getState，一般我们只要传入reducer和preloadedState，就可以直接调用这三个方法，非常方便。
 
@@ -85,10 +85,10 @@ export default function createStore(reducer, preloadedState, enhancer) {
   let currentReducer = reducer //当前的reducer函数
   let currentState = preloadedState//当前的状态树
   let currentListeners = [] // 当前的监听器列表
-  let nextListeners = currentListeners //未来的监听器列表
+  let nextListeners = currentListeners //更新后的监听器列表
   let isDispatching = false //是否正在dispatch
 
-  //判断当前的listener是否和下一个listener是否是同一个引用
+  //判断当前listener和更新后的listener是不是同一个引用，如果是的话对当前listener进行一个拷贝，防止在操作新的listener列表的时候对正在发生的业务逻辑造成影响
   function ensureCanMutateNextListeners() {
     if (nextListeners === currentListeners) {
       nextListeners = currentListeners.slice()
@@ -186,7 +186,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
   }
 
   /**
-   *这个方法主要用于reducer的热替换，一般不会使用
+   *这个方法主要用于reducer的热替换
    * @param {Function} nextReducer 
    * @returns {void}
    */
@@ -251,7 +251,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
 ```
 
 ### combineReducers
-combineReducers的作用是将之前切分的多个子reducer合并成一个大的reducer，也就是说将很多的小状态树合并到一颗树上，整合成一个完整的store。<br>
+combineReducers的作用是将之前切分的多个子reducer合并成一个大的reducer，也就是说将很多的小状态树合并到一棵树上，整合成一棵完整的状态树。<br>
 
 这个函数接受一个参数，返回一个函数<br>
 
@@ -472,4 +472,4 @@ export default function applyMiddleware(...middlewares) {
 
 整个的源码就全部分析完了，我们可以看到，redux的源码很多地方都体现了函数式编程的思想。函数式编程写出来的代码确实很漂亮很简洁，但是理解起来也比较困难。这也只是函数式编程的很小一部分，有兴趣的话可以去了解一下其他的部分。<br>
 
-写到这里也差不多了，希望以后有机会能多看点源码，get一些新的知识，bye
+写到这里也差不多了，希望以后有机会能多看点源码，get一些新的知识，最后感谢宋老师的宝贵意见，bye
